@@ -7,6 +7,8 @@ import FormInput from '../Form-input/form-input'
 import CustomButton from '../CustomButton/CustomButton'
 //Libraries
 import {auth, signinwithGoogle } from '../../Firebase/Firebase.utils'
+import Swal from 'sweetalert2'
+
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -16,7 +18,8 @@ export default class SignIn extends Component {
 
         this.state = {
             name: '',
-            email: ''
+            email: '',
+            show: false
         };
     }
 
@@ -30,6 +33,14 @@ export default class SignIn extends Component {
             this.setState({ name: '', email: '' })
 
         } catch (error) {
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: (error),
+                footer: '<a href>Why do I have this issue?</a>'
+              })
+       
             console.log(error)
         }
 
@@ -40,7 +51,7 @@ export default class SignIn extends Component {
         this.setState({ [name]: value })
     }
 
-
+   
 
 
     render() {
