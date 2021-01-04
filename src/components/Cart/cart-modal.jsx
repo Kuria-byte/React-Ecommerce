@@ -1,5 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { createStructuredSelector } from "reselect";
+
+import {selectCartItems} from '../../Redux/cart/cart.selector'
 
 import CustomButton from '../CustomButton/CustomButton'
 import CartItem from './cart-item'
@@ -23,10 +26,15 @@ const CartModal = ({ cartItems }) => {
     )
 }
 
-const mapStateToProps = (state) => ({
-    cartItems: state.cart.cartItems
 
-})
+// const mapStateToProps = (state) => ({
+//     cartItems: state.cart.cartItems
+// })
+
+// Normalized - Reselct allows us to select a slice of the state
+const mapStateToProps = createStructuredSelector({
+cartItems: selectCartItems
+});
 
 
 export default connect(mapStateToProps)(CartModal)

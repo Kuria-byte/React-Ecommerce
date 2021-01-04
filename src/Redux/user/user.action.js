@@ -4,6 +4,6 @@
      payload : user
  });
 
- export const logOut = ()=>({
+ export const logOut = () =>({
      type: 'LOG_OUT_USER'
- })
+ });
