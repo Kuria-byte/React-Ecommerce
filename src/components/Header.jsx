@@ -11,8 +11,15 @@ import CartModal from '../components/Cart/cart-modal'
 
 
 import './header.scss'
+import { logOut } from "../Redux/user/user.action"
 
-const Header = ({ currentUser , hidden}) => {
+const Header = ({ currentUser , hidden, logOut}) => {
+
+  const handleClick = () => {
+    auth.signOut();
+    logOut();
+  };
+
   return (
     <div className="header">
       <Link className="logo-container" to="/">
@@ -26,7 +33,7 @@ const Header = ({ currentUser , hidden}) => {
           CONTACT
       </Link>
         {currentUser ? (
-          <Link className='option' onClick={() => auth.signOut()}>
+          <Link className='option' onClick={handleClick}>
             SIGN OUT
           </Link >
         ) : (
@@ -52,6 +59,10 @@ const mapStateToProps = (state) => ({
 
 });
 
+const mapDispatchToProps = (dispatch) =>({
+  logOut : ()=> dispatch(logOut())
+})
 
 
-export default connect(mapStateToProps)(Header);
+
+export default connect(mapStateToProps,mapDispatchToProps)(Header);
