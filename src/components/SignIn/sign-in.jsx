@@ -31,19 +31,20 @@ export default class SignIn extends Component {
         try {
             await auth.signInWithEmailAndPassword(email, password)
             this.setState({ name: '', email: '' })
+      
 
         } catch (error) {
-
-            Swal.fire({
-                icon: 'warning',
-                title: 'Oops...',
-                text: (error),
-                footer: '<a href>Why do I have this issue?</a>'
-              })
-       
-            console.log(error)
+            if (error){
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: (error),
+                    footer: '<a href>Why do I have this issue?</a>'
+                  })
+           
+                console.log(error)
+            }
         }
-
     }
 
     handleChange = (event) => {
