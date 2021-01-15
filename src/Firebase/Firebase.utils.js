@@ -17,13 +17,13 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-// export const signInwithEmail =() => auth.signInWithEmailAndPassword(email,password);
+
 
 export const createUserProfileDocument = async (userAuth, additonalData) => {
   if (!userAuth) return;
 
   const userRef = firestore.doc(`users/${userAuth.uid}`);
-  const snapShot = await userRef.get();  
+  const snapShot = await userRef.get();
 
   if (!snapShot.exists) {
     const { displayName, email } = userAuth;
@@ -40,10 +40,54 @@ export const createUserProfileDocument = async (userAuth, additonalData) => {
       console.log("error creating user", error.message);
     }
   }
-  console.log(userRef);
+
   return userRef;
-  
+
 };
+
+export const addCollectionAndDocuments = async (collectionName, ojectsToAdd) => {
+
+  const collectionRef = firestore.collection(collectionName);
+  const batch = firestore.batch();
+
+  ojectsToAdd.forEach(object => {
+    const newDoc = collectionRef.doc();
+    console.log(object);
+    batch.set(newDoc, object);
+  });
+
+  return await batch.commit()
+}
+
+export const convertShopCollectionsToObjection = (shopCollections) => {
+  const transformedCollections = shopCollections.docs.map(shopDocument => {
+    const { title, items } = shopDocument.data();
+
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: shopDocument.id,
+      title,
+      items
+    }
+  });
+
+  
+ return transformedCollections.reduce( (accumulator,Shopcollection ) =>{
+   accumulator[Shopcollection.title.toLowerCase()] = Shopcollection;
+   return accumulator;
+
+  }, {});
+
+
+  }
+
+
+
+
+
+
+
+
 
 
 

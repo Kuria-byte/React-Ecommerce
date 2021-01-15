@@ -8,7 +8,7 @@ import ShopPage from "./pages/shoppage";
 import Header from "./components/Header";
 import SignInSignUp from "./pages/sign-in-sign-up"
 import checkoutPage from './pages/checkout-page'
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 
 import "./App.css";
 
@@ -16,6 +16,7 @@ import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils";
 
 import { setCurrentUser } from './Redux/user/user.action';
 import {selectCurrentUser} from './Redux/user/user.selector'
+import {selectCollectioinForPreview } from './Redux/shop/shop.selector';
 
 class App extends React.Component {
 
@@ -24,6 +25,7 @@ class App extends React.Component {
   componentDidMount() {
 
     const { setCurrentUser } = this.props;
+
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
@@ -39,10 +41,12 @@ class App extends React.Component {
             console.log(this.state);
           })
         });
+      } 
+      setCurrentUser({ userAuth });
 
-      } else {
-        setCurrentUser({ userAuth })
-      }
+      //Shifting our shop collection to firebase store
+      // addCollectionAndDocuments('shopCollections',shopCollections.map(({title , items}) => ({title , items})) );
+  
 
     });
   }
@@ -72,12 +76,14 @@ class App extends React.Component {
 
 
 const mapStateToProps = createStructuredSelector({
-  currentUser : selectCurrentUser
+  currentUser : selectCurrentUser,
+  shopCollections : selectCollectioinForPreview
 });
 
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user))
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+  
 });
 
 
