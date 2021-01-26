@@ -59,7 +59,7 @@ export const addCollectionAndDocuments = async (collectionName, ojectsToAdd) => 
   return await batch.commit()
 }
 
-export const convertShopCollectionsToObjection = (shopCollections) => {
+export const convertShopCollectionsToObject = (shopCollections) => {
   const transformedCollections = shopCollections.docs.map(shopDocument => {
     const { title, items } = shopDocument.data();
 
