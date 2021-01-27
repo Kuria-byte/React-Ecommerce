@@ -17,7 +17,7 @@ export default function Footer() {
                         document.write(new Date().getFullYear());
                     </script>2020
                     All rights reserved | This template is made with <i class="fa fa-heart-o"
-                    aria-hidden="true"></i> by <a href="https://kuriadev.tech" target="_blank" rel="noreferrer">KuriaByte</a>
+                    aria-hidden="true"></i> by <a href="https://kuriadev.tech" target="_blank" rel="noreferrer">Kuria-Byte</a>
                 </p>
             </div>
         </div>
