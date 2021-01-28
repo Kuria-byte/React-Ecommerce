@@ -1,7 +1,7 @@
 import { firestore, convertShopCollectionsToObject} from "../../Firebase/Firebase.utils";
 
 export const fetchCollectionStart = (CollectionObject) => ({
-  type: "FETCH_COLLECTION_START "
+  type: "FETCH_COLLECTION_START"
 });
 
 export const fetchCollectionFailure = (errorMessage) => ({
