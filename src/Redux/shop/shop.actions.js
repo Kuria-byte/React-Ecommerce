@@ -1,11 +1,11 @@
 import { firestore, convertShopCollectionsToObject} from "../../Firebase/Firebase.utils";
 
-export const fetchCollectionStart = (CollectionObject) => ({
+export const fetchCollectionStart = (CollectionsObject) => ({
   type: "FETCH_COLLECTION_START"
 });
 
 export const fetchCollectionFailure = (errorMessage) => ({
-    type: "FETCH_COLLECTION_SUCCESS",
+    type: "FETCH_COLLECTION_FAILURE",
     payload: errorMessage,
   });
 
@@ -14,6 +14,7 @@ export const fetchCollectionSuccess = (collectionsObject) => ({
   payload: collectionsObject,
 });
 
+// Redux- thunk 
 export const fetchCollectionStartAsync = () => {
   return dispatch => {
     const collectionRef = firestore.collection("shopCollections");

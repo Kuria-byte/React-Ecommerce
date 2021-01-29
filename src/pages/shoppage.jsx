@@ -20,19 +20,14 @@ const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
 class ShopPage extends Component {
 
-
-
   componentDidMount() {
-
     const { fetchCollectionStart } = this.props;
     fetchCollectionStart();
-
   }
 
 
   render() {
     const { match, isCollectionFetching,iscollectionLoaded } = this.props;
-
 
     return (
       <div className='shop-page'>
@@ -41,7 +36,6 @@ class ShopPage extends Component {
 
       </div>
     )
-
   }
 };
 
