@@ -1,8 +1,33 @@
 import { takeLatest, put, all } from 'redux-saga/effects';
 import { auth, googleProvider, createUserProfileDocument } from '../../Firebase/Firebase.utils';
-import { googleSignInSuccess, googleSignInFailure,emailSignInSuccess,emailSignInFailure } from './user.action'
+import { googleSignInSuccess, googleSignInFailure,emailSignInSuccess,emailSignInFailure,emailSignUpSuccssful,emailSignUpFailure } from './user.action'
 import Swal from 'sweetalert2'
-// import { selectCurrentUser } from './user.selector'
+
+
+export function* emailSignUpStart (){
+    yield takeLatest('EMAIL_SIGNUP_START', emailSignUp )
+}
+
+export function* emailSignUp ({payload: {email, password, displayName} }){
+
+try {
+
+    const {user}= yield auth.createUserWithEmailAndPassword(email,password);
+    const userRef = yield createUserProfileDocument(user,{displayName}); 
+    const userSnapShot = yield userRef.get();
+    yield put(emailSignUpSuccssful({ id: userSnapShot.id, ...userSnapShot.data() }))
+}
+catch(error){
+    yield Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: (error),
+        footer: '<a href>Why do I have this issue?</a>'
+      })
+      yield put(emailSignUpFailure(error));
+
+}
+}
 
 export function* signInWithGoogle() {
 
@@ -58,5 +83,5 @@ export function* onEmailSignInStart () {
 
 
 export function* userSagas() {
-    yield all([onGoogleSignInStart(), onEmailSignInStart()])
+    yield all([onGoogleSignInStart(), onEmailSignInStart(), emailSignUpStart()])
 }

@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux'
+
+import { emailSignUpStart} from '../../Redux/user/user.action'
 // Components
 import FormInput from '../Form-input/form-input'
 import CustomButton from '../CustomButton/CustomButton'
-import { auth, createUserProfileDocument } from '../../Firebase/Firebase.utils'
+import Swal from 'sweetalert2'
 import './signup.scss';
 
 class SignUp extends Component {
@@ -23,6 +26,7 @@ class SignUp extends Component {
         event.preventDefault();
     
          const { displayName, email, password, confirmPassword } = this.state;
+         const { emailSignUpStart} = this.props
     
         if (password !== confirmPassword) {
           alert("passwords don't match");
@@ -30,11 +34,7 @@ class SignUp extends Component {
         }
     
         try {
-          const { user } = await auth.createUserWithEmailAndPassword(
-            email,
-            password
-          );
-          await createUserProfileDocument(user, { displayName });
+          emailSignUpStart(email,password,displayName);
 
           this.setState({
             displayName: '',
@@ -43,7 +43,12 @@ class SignUp extends Component {
             confirmPassword: ''
           });
         } catch (error) {
-          console.error(error);
+          Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: (error),
+            footer: '<a href>Why do I have this issue?</a>'
+          })
         }
       };
 
@@ -102,5 +107,9 @@ class SignUp extends Component {
       }
     }
 
-export default SignUp;
+const mapDispatchToProps = (dispatch) => ({
+  emailSignUpStart: (email, password,displayName) => dispatch(emailSignUpStart({ email, password, displayName }))
+})
+
+export default connect (null,mapDispatchToProps)(SignUp);
 
